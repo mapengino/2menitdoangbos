@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NexusStore — Top Up & Jual Beli Game</title>
+
+  <!-- Bootstrap 5.3.3 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"/>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"/>
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* =========================================
+       DESIGN SYSTEM — CSS ROOT
+    ========================================= */
+    :root {
+      --primary:       #1a1f3a;
+      --primary-mid:   #232a52;
+      --primary-light: #2d3672;
+      --accent:        #7c5cfc;
+      --accent-mid:    #9b7fff;
+      --accent-glow:   #b09eff;
+      --neon:          #00d4ff;
+      --neon-soft:     #00aacc;
+      --danger:        #ff4d6d;
+      --gold:          #ffd700;
+      --gold-dark:     #c9a800;
+      --surface-0:     #0d0f1e;
+      --surface-1:     #131629;
+      --surface-2:     #1a1f3a;
+      --surface-3:     #22284a;
+      --surface-card:  rgba(26,31,58,0.85);
+      --text-primary:  #e8eaf6;
+      --text-secondary:#8892b0;
+      --text-muted:    #4a5080;
+      --border:        rgba(124,92,252,0.25);
+      --border-glow:   rgba(124,92,252,0.6);
+      --radius-sm:     8px;
+      --radius-md:     14px;
+      --radius-lg:     22px;
+      --radius-xl:     32px;
+      --shadow-card:   0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+      --shadow-glow:   0 0 30px rgba(124,92,252,0.35);
+      --shadow-neon:   0 0 20px rgba(0,212,255,0.4);
+      --font-head:     'Orbitron', sans-serif;
+      --font-body:     'Rajdhani', sans-serif;
+      --font-util:     'Inter', sans-serif;
+      --transition:    all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* =========================================
+       BASE RESET
+    ========================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--surface-0);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* =========================================
+       SCROLL PROGRESS BAR
+    ========================================= */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--neon));
+      z-index: 9999;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 10px var(--accent), 0 0 20px var(--neon);
+    }
+
+    /* =========================================
+       NAVBAR
+    ========================================= */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      background: rgba(13,15,30,0.4);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
+    }
+    #navbar.scrolled {
+      padding: 12px 0;
+      background: rgba(13,15,30,0.92);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+    .nav-brand {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--accent-glow), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; }
+    .nav-link-item {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      text-transform: uppercase;
+    }
+    .nav-link-item:hover { color: var(--accent-glow); background: rgba(124,92,252,0.1); }
+    .btn-nav {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #fff !important;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: var(--radius-xl);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: var(--transition);
+      display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 0 15px rgba(37,211,102,0.3);
+    }
+    .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
+    .hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center;
+      gap: 5px; background: none; border: none; cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .mobile-menu {
+      display: none; flex-direction: column; gap: 4px;
+      padding: 16px; border-top: 1px solid var(--border);
+      background: rgba(13,15,30,0.97);
+    }
+    .mobile-menu.open { display: flex; }
+
+    /* =========================================
+       HERO SECTION
+    ========================================= */
+    #hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg, rgba(13,15,30,0.92) 0%, rgba(26,31,58,0.7) 50%, rgba(13,15,30,0.88) 100%),
+        radial-gradient(ellipse at 70% 50%, rgba(124,92,252,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 80%, rgba(0,212,255,0.1) 0%, transparent 50%);
+      background-color: var(--surface-0);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 120px 0 60px;
+    }
+    /* Animated grid background */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(124,92,252,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,92,252,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes gridShift {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(60px); }
+    }
+    /* Floating orbs */
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); pointer-events: none;
+      animation: orbFloat 8s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 400px; height: 400px; background: rgba(124,92,252,0.15); top: -100px; right: 5%; }
+    .orb-2 { width: 300px; height: 300px; background: rgba(0,212,255,0.1); bottom: 0; left: 10%; animation-delay: -4s; }
+    @keyframes orbFloat {
+      from { transform: translateY(0) scale(1); }
+      to   { transform: translateY(-30px) scale(1.1); }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,92,252,0.15);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-xl);
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-family: var(--font-util);
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-glow);
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.4); opacity: 0.7; }
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, var(--accent-glow) 0%, var(--neon) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      color: var(--text-secondary);
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      font-family: var(--font-util);
+      font-weight: 300;
+      max-width: 480px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .hero-cta-group { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary-glow {
+      background: linear-gradient(135deg, var(--accent), var(--primary-light));
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 14px 30px;
+      border-radius: var(--radius-xl);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 0 25px rgba(124,92,252,0.4), var(--shadow-card);
+    }
+    .btn-primary-glow:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(124,92,252,0.6), 0 8px 30px rgba(0,0,0,0.4);
+      color: #fff;
+    }
+    .btn-outline-neon {
+      background: transparent;
+      color: var(--neon);
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      border-radius: var(--radius-xl);
+      border: 1.5px solid var(--neon);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: var(--transition);
+    }
+    .btn-outline-neon:hover {
+      background: rgba(0,212,255,0.1);
+      box-shadow: var(--shadow-neon);
+      transform: translateY(-3px);
+      color: var(--neon);
+    }
+
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .stat-item { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-glow), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-family: var(--font-util);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Hero Logo */
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .hero-logo-wrapper {
+      position: relative;
+      width: 320px; height: 320px;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-18px); }
+    }
+    .hero-logo-ring {
+      position: absolute; inset: -20px;
+      border-radius: 50%;
+      border: 1px solid rgba(124,92,252,0.3);
+      animation: rotate 12s linear infinite;
+    }
+    .hero-logo-ring::before {
+      content: '';
+      position: absolute;
+      width: 12px; height: 12px;
+      background: var(--neon);
+      border-radius: 50%;
+      top: 50%; left: -6px;
+      transform: translateY(-50%);
+      box-shadow: var(--shadow-neon);
+    }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .hero-logo-ring-2 {
+      position: absolute; inset: -45px;
+      border-radius: 50%;
+      border: 1px dashed rgba(0,212,255,0.15);
+      animation: rotate 20s linear infinite reverse;
+    }
+    .hero-logo-box {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--surface-2), var(--primary-mid));
+      border-radius: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border-glow);
+      box-shadow: var(--shadow-glow), var(--shadow-card);
+      font-size: 7rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-logo-box::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(124,92,252,0.15) 0%, transparent 60%);
+    }
+
+    /* =========================================
+       TRUST BAR (Marquee)
+    ========================================= */
+    #trust-bar {
+      background: var(--surface-1);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      overflow: hidden;
+    }
+    .trust-track {
+      display: flex; gap: 48px; width: max-content;
+      animation: scroll-left 30s linear infinite;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--text-secondary);
+      font-family: var(--font-util);
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .trust-item i { color: var(--accent-mid); font-size: 1rem; }
+    @keyframes scroll-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* =========================================
+       SECTION COMMONS
+    ========================================= */
+    section { padding: 100px 0; }
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-util);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-mid);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      color: var(--text-secondary);
+      font-family: var(--font-util);
+      font-size: 1rem;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* =========================================
+       CATEGORY PILLS
+    ========================================= */
+    #categories { padding: 60px 0; }
+    .cat-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .cat-pill:hover, .cat-pill.active {
+      background: rgba(124,92,252,0.2);
+      border-color: var(--accent);
+      color: var(--accent-glow);
+      box-shadow: 0 0 15px rgba(124,92,252,0.2);
+    }
+    .cat-pill i { font-size: 1.1rem; }
+
+    /* =========================================
+       PRODUCT CARDS
+    ========================================= */
+    #products { padding: 80px 0 100px; background: var(--surface-1); }
+    .product-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, border-color 0.3s;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-glow), 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .product-card .badge-hot {
+      position: absolute; top: 12px; left: 12px;
+      background: linear-gradient(135deg, var(--danger), #c62a47);
+      color: #fff;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: var(--radius-xl);
+      backdrop-filter: blur(6px);
+      z-index: 2;
+      box-shadow: 0 0 10px rgba(255,77,109,0.4);
+    }
+    .product-card .badge-sale {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(0,212,255,0.15);
+      border: 1px solid rgba(0,212,255,0.4);
+      color: var(--neon);
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: var(--radius-xl);
+      backdrop-filter: blur(6px);
+      z-index: 2;
+    }
+    .product-img-wrap {
+      height: 200px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--surface-2), var(--primary-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4.5rem;
+      position: relative;
+    }
+    .product-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, var(--surface-card));
+    }
+    .product-body { padding: 18px; }
+    .product-game-tag {
+      font-size: 0.68rem;
+      color: var(--accent-mid);
+      font-family: var(--font-util);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .product-name {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .product-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-util);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .product-price {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .product-price-old {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-family: var(--font-util);
+      display: block;
+    }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-xl);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 0 12px rgba(37,211,102,0.3);
+    }
+    .btn-wa:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 20px rgba(37,211,102,0.5);
+      color: #fff;
+    }
+    .btn-detail {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(124,92,252,0.15);
+      border: 1px solid var(--border);
+      color: var(--accent-glow);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 7px 14px;
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-detail:hover {
+      background: rgba(124,92,252,0.3);
+      border-color: var(--accent);
+    }
+
+    /* =========================================
+       FEATURES / HOW IT WORKS
+    ========================================= */
+    #features { background: var(--surface-0); }
+    .feature-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      height: 100%;
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--neon));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-card:hover {
+      background: var(--surface-3);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-6px);
+    }
+    .feature-icon {
+      width: 56px; height: 56px;
+      background: rgba(124,92,252,0.15);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      transition: var(--transition);
+    }
+    .feature-card:hover .feature-icon {
+      background: rgba(124,92,252,0.3);
+      box-shadow: var(--shadow-glow);
+    }
+    .feature-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    .feature-desc {
+      color: var(--text-secondary);
+      font-family: var(--font-util);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* =========================================
+       TOP-UP SECTION
+    ========================================= */
+    #topup { background: var(--surface-1); }
+    .topup-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
+      text-align: center;
+    }
+    .topup-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-glow);
+    }
+    .topup-img {
+      height: 140px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-mid));
+      position: relative; overflow: hidden;
+    }
+    .topup-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(124,92,252,0.2), transparent 70%);
+    }
+    .topup-body { padding: 18px; }
+    .topup-name {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .topup-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--font-util);
+    }
+
+    /* =========================================
+       CUSTOM MODAL
+    ========================================= */
+    #modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #modal-overlay.open { opacity: 1; pointer-events: all; }
+    #modal-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-xl);
+      max-width: 520px; width: 90%;
+      padding: 36px;
+      transform: scale(0.88) translateY(30px);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+      opacity: 0;
+      position: relative;
+      box-shadow: var(--shadow-glow), 0 40px 80px rgba(0,0,0,0.6);
+    }
+    #modal-overlay.open #modal-box { transform: scale(1) translateY(0); opacity: 1; }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--surface-3); border: 1px solid var(--border);
+      color: var(--text-secondary); border-radius: 50%;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    .modal-close:hover { color: var(--text-primary); background: var(--accent); border-color: var(--accent); }
+    .modal-emoji { font-size: 3.5rem; margin-bottom: 16px; display: block; text-align: center; }
+    .modal-title { font-family: var(--font-head); font-size: 1.2rem; font-weight: 700; text-align: center; margin-bottom: 8px; }
+    .modal-tag { color: var(--accent-mid); font-size: 0.75rem; text-align: center; margin-bottom: 6px; font-family: var(--font-util); }
+    .modal-price-row { display: flex; align-items: baseline; justify-content: center; gap: 10px; margin: 16px 0; }
+    .modal-price { font-family: var(--font-head); font-size: 1.8rem; font-weight: 900; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .modal-price-old { font-size: 0.9rem; color: var(--text-muted); text-decoration: line-through; font-family: var(--font-util); }
+    .modal-desc { color: var(--text-secondary); font-size: 0.9rem; font-family: var(--font-util); text-align: center; margin-bottom: 24px; line-height: 1.6; }
+    .modal-features { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+    .modal-feat-pill { background: rgba(124,92,252,0.1); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 4px 12px; font-size: 0.75rem; color: var(--accent-glow); font-family: var(--font-util); }
+    .btn-wa-modal {
+      width: 100%;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 14px;
+      border-radius: var(--radius-xl);
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: var(--transition);
+      box-shadow: 0 0 20px rgba(37,211,102,0.3);
+    }
+    .btn-wa-modal:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(37,211,102,0.5); }
+
+    /* =========================================
+       CTA BANNER
+    ========================================= */
+    #cta { background: var(--surface-0); position: relative; overflow: hidden; }
+    .cta-box {
+      background: linear-gradient(135deg, var(--primary-mid), var(--primary-light));
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-xl);
+      padding: 72px 48px;
+      text-align: center;
+      position: relative; overflow: hidden;
+      box-shadow: var(--shadow-glow);
+    }
+    .cta-box::before {
+      content: '◈';
+      position: absolute;
+      font-size: 300px; line-height: 1;
+      color: rgba(124,92,252,0.06);
+      top: -80px; right: -80px;
+      pointer-events: none;
+    }
+    .cta-box::after {
+      content: '◈';
+      position: absolute;
+      font-size: 200px; line-height: 1;
+      color: rgba(0,212,255,0.05);
+      bottom: -60px; left: -60px;
+      pointer-events: none;
+    }
+    .cta-box .section-title { color: var(--text-primary); }
+    .cta-subtitle { color: var(--text-secondary); font-family: var(--font-util); font-size: 1rem; margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+    footer {
+      background: var(--surface-1);
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+    }
+    .footer-brand { font-family: var(--font-head); font-size: 1.3rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-glow), var(--neon)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+    .footer-desc { color: var(--text-muted); font-family: var(--font-util); font-size: 0.85rem; line-height: 1.7; max-width: 260px; }
+    .footer-heading { font-family: var(--font-head); font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 16px; }
+    .footer-link { display: block; color: var(--text-muted); text-decoration: none; font-family: var(--font-util); font-size: 0.88rem; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-link:hover { color: var(--accent-glow); }
+    .footer-bottom { border-top: 1px solid var(--border); margin-top: 40px; padding-top: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: gap-12px; }
+    .footer-copy { color: var(--text-muted); font-family: var(--font-util); font-size: 0.8rem; }
+    .social-links { display: flex; gap: 10px; }
+    .social-btn { width: 36px; height: 36px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 0.9rem; text-decoration: none; transition: var(--transition); }
+    .social-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: var(--shadow-glow); }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      #hero { padding-top: 100px; }
+      .hero-logo-wrapper { width: 200px; height: 200px; }
+      .hero-stats { gap: 20px; }
+      .cta-box { padding: 48px 28px; }
+      section { padding: 70px 0; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--surface-0); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* Utility */
+    .divider-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--border-glow), transparent); margin: 0; }
+  </style>
+</head>
+<body>
+
+<!-- ========== PROGRESS BAR ========== -->
+<div id="progress-bar"></div>
+
+<!-- ========== NAVBAR ========== -->
+<nav id="navbar">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="#" class="nav-brand">NEXUS<span style="color:var(--neon);">STORE</span></a>
+
+      <div class="nav-links">
+        <a href="#products" class="nav-link-item">Produk</a>
+        <a href="#topup"    class="nav-link-item">Top Up</a>
+        <a href="#features" class="nav-link-item">Layanan</a>
+        <a href="#cta"      class="nav-link-item">Kontak</a>
+        <a href="https://wa.me/6281234567890?text=Halo+NexusStore,+saya+mau+order!" target="_blank" class="btn-nav ms-2">
+          <i class="bi bi-whatsapp"></i> Chat Sekarang
+        </a>
+      </div>
+
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#products" class="nav-link-item">Produk</a>
+      <a href="#topup"    class="nav-link-item">Top Up</a>
+      <a href="#features" class="nav-link-item">Layanan</a>
+      <a href="https://wa.me/6281234567890?text=Halo+NexusStore,+saya+mau+order!" target="_blank" class="btn-nav mt-2">
+        <i class="bi bi-whatsapp"></i> Chat WhatsApp
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-eyebrow">
+          <span class="pulse-dot"></span>
+          Toko Game Terpercaya #1
+        </div>
+        <h1 class="hero-title">
+          Top Up & Jual Beli<br>
+          <span class="gradient-text">Game Digital</span><br>
+          Harga Terbaik
+        </h1>
+        <p class="hero-subtitle">
+          Ratusan produk game tersedia — voucher, diamond, UC, coin, dan akun premium. Proses cepat, aman, dan harga bersaing.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#products" class="btn-primary-glow">
+            <i class="bi bi-controller-fill"></i> Lihat Produk
+          </a>
+          <a href="https://wa.me/6281234567890" target="_blank" class="btn-outline-neon">
+            <i class="bi bi-whatsapp"></i> Order via WA
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">10K+</span>
+            <span class="stat-label">Transaksi</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">500+</span>
+            <span class="stat-label">Produk</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">4.9★</span>
+            <span class="stat-label">Rating</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">24/7</span>
+            <span class="stat-label">Support</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="hero-visual">
+          <div class="hero-logo-wrapper">
+            <div class="hero-logo-ring"></div>
+            <div class="hero-logo-ring-2"></div>
+            <div class="hero-logo-box">🎮</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TRUST BAR ========== -->
+<div id="trust-bar">
+  <div class="trust-track" id="trust-track">
+    <!-- Items doubled for seamless loop -->
+    <div class="trust-item"><i class="bi bi-shield-fill-check"></i> 100% Aman & Terpercaya</div>
+    <div class="trust-item"><i class="bi bi-lightning-charge-fill"></i> Proses Instan &lt; 5 Menit</div>
+    <div class="trust-item"><i class="bi bi-currency-dollar"></i> Harga Termurah</div>
+    <div class="trust-item"><i class="bi bi-headset"></i> CS 24/7 Siap Membantu</div>
+    <div class="trust-item"><i class="bi bi-star-fill"></i> Rating 4.9/5 dari 10.000+ Pembeli</div>
+    <div class="trust-item"><i class="bi bi-box-seam-fill"></i> 500+ Produk Tersedia</div>
+    <div class="trust-item"><i class="bi bi-phone-fill"></i> Bisa Order via WhatsApp</div>
+    <div class="trust-item"><i class="bi bi-arrow-repeat"></i> Garansi Uang Kembali</div>
+    <!-- duplicate -->
+    <div class="trust-item"><i class="bi bi-shield-fill-check"></i> 100% Aman & Terpercaya</div>
+    <div class="trust-item"><i class="bi bi-lightning-charge-fill"></i> Proses Instan &lt; 5 Menit</div>
+    <div class="trust-item"><i class="bi bi-currency-dollar"></i> Harga Termurah</div>
+    <div class="trust-item"><i class="bi bi-headset"></i> CS 24/7 Siap Membantu</div>
+    <div class="trust-item"><i class="bi bi-star-fill"></i> Rating 4.9/5 dari 10.000+ Pembeli</div>
+    <div class="trust-item"><i class="bi bi-box-seam-fill"></i> 500+ Produk Tersedia</div>
+    <div class="trust-item"><i class="bi bi-phone-fill"></i> Bisa Order via WhatsApp</div>
+    <div class="trust-item"><i class="bi bi-arrow-repeat"></i> Garansi Uang Kembali</div>
+  </div>
+</div>
+
+<!-- ========== CATEGORY PILLS ========== -->
+<section id="categories">
+  <div class="container">
+    <div class="d-flex gap-3 flex-wrap justify-content-center">
+      <a class="cat-pill active" href="#" data-filter="all"><i class="bi bi-grid-fill"></i> Semua</a>
+      <a class="cat-pill" href="#" data-filter="mobile"><i class="bi bi-phone-fill"></i> Mobile Legends</a>
+      <a class="cat-pill" href="#" data-filter="pubg"><i class="bi bi-crosshair"></i> PUBG Mobile</a>
+      <a class="cat-pill" href="#" data-filter="ff"><i class="bi bi-fire"></i> Free Fire</a>
+      <a class="cat-pill" href="#" data-filter="genshin"><i class="bi bi-stars"></i> Genshin Impact</a>
+      <a class="cat-pill" href="#" data-filter="voucher"><i class="bi bi-ticket-perforated-fill"></i> Voucher</a>
+      <a class="cat-pill" href="#" data-filter="akun"><i class="bi bi-person-badge-fill"></i> Jual Akun</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRODUCTS ========== -->
+<section id="products">
+  <div class="container">
+    <div class="row align-items-end mb-5">
+      <div class="col-lg-7">
+        <span class="section-label">🎮 Produk Unggulan</span>
+        <h2 class="section-title">Pilihan <span style="background:linear-gradient(135deg,var(--accent-glow),var(--neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Top Seller</span></h2>
+        <p class="section-desc">Produk paling laris dengan harga kompetitif dan proses cepat. Klik untuk detail lengkap.</p>
+      </div>
+      <div class="col-lg-5 text-lg-end">
+        <a href="https://wa.me/6281234567890" target="_blank" class="btn-outline-neon">
+          Lihat Semua Produk <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="row g-4" id="product-grid">
+
+      <!-- Product Cards -->
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="product-card" onclick="openModal('ml-weekly','Mobile Legends','💎','Weekly Diamond Pass','Dapatkan 2188 diamond + bonus event eksklusif setiap minggu.','Rp 24.000','Rp 29.000','Mobile Legends',['2188 Diamond','Bonus Event','Instan','Anti Banned'])">
+          <span class="badge-hot">🔥 HOT</span>
+          <div class="product-img-wrap">💎</div>
+          <div class="product-body">
+            <div class="product-game-tag">Mobile Legends</div>
+            <div class="product-name">Weekly Diamond Pass</div>
+            <div class="product-desc">2188 Diamond + bonus event mingguan eksklusif</div>
+            <div class="product-footer">
+              <div>
+                <span class="product-price-old">Rp 29.000</span>
+                <span class="product-price">Rp 24.000</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn-detail" onclick="event.stopPropagation();openModal('ml-weekly','Mobile Legends','💎','Weekly Diamond Pass','Dapatkan 2188 diamond + bonus event eksklusif setiap minggu.','Rp 24.000','Rp 29.000','Mobile Legends',['2188 Diamond','Bonus Event','Instan','Anti Banned'])"><i class="bi bi-eye"></i></button>
+                <a class="btn-wa" href="https://wa.me/6281234567890?text=Halo,+saya+mau+beli+Weekly+Diamond+Pass+ML" target="_blank" onclick="event.stopPropagation()"><i class="bi bi-whatsapp"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+        <div class="product-card" onclick="openModal('pubg-60','PUBG Mobile','🪖','60 UC PUBG Mobile','Top up UC PUBG paling hemat untuk beli skin dan battle pass.','Rp 11.500','Rp 15.000','PUBG Mobile',['60 UC','Instan','Semua Server','Aman'])">
+          <span class="badge-sale">TERMURAH</span>
+          <div class="product-img-wrap">🪖</div>
+          <div class="product-body">
+            <div class="product-game-tag">PUBG Mobile</div>
+            <div class="product-name">60 UC PUBG Mobile</div>
+            <div class="product-desc">Top up 60 UC paling hemat, cocok untuk pemula</div>
+            <div class="product-footer">
+              <div>
+                <span class="product-price-old">Rp 15.000</span>
+                <span class="product-price">Rp 11.500</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn-detail" onclick="event.stopPropagation();openModal('pubg-60','PUBG Mobile','🪖','60 UC PUBG Mobile','Top up UC PUBG paling hemat untuk beli skin dan battle pass.','Rp 11.500','Rp 15.000','PUBG Mobile',['60 UC','Instan','Semua Server','Aman'])"><i class="bi bi-eye"></i></button>
+                <a class="btn-wa" href="https://wa.me/6281234567890?text=Halo,+saya+mau+top+up+60+UC+PUBG" target="_blank" onclick="event.stopPropagation()"><i class="bi bi-whatsapp"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="160">
+        <div class="product-card" onclick="openModal('ff-520','Free Fire','💠','520 Diamond Free Fire','Diamond FF terpercaya, cocok untuk spin skin legendaris dan top up event.','Rp 75.000','Rp 90.000','Free Fire',['520 Diamond','Instan','Semua Region','Garansi'])">
+          <div class="product-img-wrap">💠</div>
+          <div class="product-body">
+            <div class="product-game-tag">Free Fire</div>
+            <div class="product-name">520 Diamond Free Fire</div>
+            <div class="product-desc">Diamond FF untuk spin skin legendary & top event</div>
+            <div class="product-footer">
+              <div>
+                <span class="product-price-old">Rp 90.000</span>
+                <span class="product-price">Rp 75.000</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn-detail" onclick="event.stopPropagation();openModal('ff-520','Free Fire','💠','520 Diamond Free Fire','Diamond FF terpercaya, cocok untuk spin skin legendaris dan top up event.','Rp 75.000','Rp 90.000','Free Fire',['520 Diamond','Instan','Semua Region','Garansi'])"><i class="bi bi-eye"></i></button>
+                <a class="btn-wa" href="https://wa.me/6281234567890?text=Halo,+saya+mau+beli+520+Diamond+Free+Fire" target="_blank" onclick="event.stopPropagation()"><i class="bi bi-whatsapp"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="product-card" onclick="openModal('genshin-60','Genshin Impact','⭐','60 Genesis Crystal','Crystal Genshin untuk beli Primogem, Welkin Moon, dan event banner.','Rp 14.000','Rp 18.000','Genshin Impact',['60 Genesis Crystal','Instan','Semua Server','Top Up via UID'])">
+          <span class="badge-hot">⭐ LARIS</span>
+          <div class="product-img-wrap">⭐</div>
+          <div class="product-body">
+            <div class="product-game-tag">Genshin Impact</div>
+            <div class="product-name">60 Genesis Crystal</div>
+            <div class="product-desc">Genesis Crystal untuk Welkin Moon & event banner</div>
+            <div class="product-footer">
+              <div>
+                <span class="product-price-old">Rp 18.000</span>
+                <span class="product-price">Rp 14.000</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn-detail" onclick="event.stopPropagation();openModal('genshin-60','Genshin Impact','⭐','60 Genesis Crystal','Crystal Genshin untuk beli Primogem, Welkin Moon, dan event banner.','Rp 14.000','Rp 18.000','Genshin Impact',['60 Genesis Crystal','Instan','Semua Server','Top Up via UID'])"><i class="bi bi-eye"></i></button>
+                <a class="btn-wa" href="https://wa.me/6281234567890?text=Halo,+saya+mau+beli+60+Genesis+Crystal+Genshin" target="_blank" onclick="event.stopPropagation()"><i class="bi bi-whatsapp"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+        <div class="product-card" onclick="openModal('ml-akun','Mobile Legends','👑','Akun ML Sultan','Akun ML dengan banyak hero & skin legend, siap main langsung.','Rp 350.000','Rp 500.000','Jual Akun',['50+ Hero','20+ Skin Legend','Sudah Mythic','Garansi 7 Hari'])">
+          <span class="badge-sale">SULTAN</span>
+          <div class="product-img-wrap">👑</div>
+          <div class="product-body">
+            <div class="product-game-tag">Jual Akun ML</div>
+            <div class="product-name">Akun ML Sultan</div>
+            <div class="product-desc">50+ hero, 20+ skin legend, rank Mythic — siap pakai</div>
+            <div class="product-footer">
+              <div>
+                <span class="product-price-old">Rp 500.000</span>
+                <span class="product-price">Rp 350.000</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn-detail" onclick="event.stopPropagation();openModal('ml-akun','Mobile Legends','👑','Akun ML Sultan','Akun ML dengan banyak hero & skin legend, siap main langsung.','Rp 350.000','Rp 500.000','Jual Akun',['50+ Hero','20+ Skin Legend','Sudah Mythic','Garansi 7 Hari'])"><i class="bi bi-eye"></i></button>
+                <a class="btn-wa" href="https://wa.me/6281234567890?text=Halo,+saya+mau+tanya+Akun+ML+Sultan" target="_blank" onclick="event.stopPropagation()"><i class="bi bi-whatsapp"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="160">
+        <div class="product-card" onclick="openModal('voucher-google','Voucher','🎁','Google Play Rp 50.000','Voucher resmi Google Play untuk beli game, app, atau top up langsung.','Rp 52.000','Rp 55.000','Voucher',['Nominal Rp 50.000','Kode Instan','Semua Akun Google','Berlaku Selamanya'])">
+          <div class="product-img-wrap">🎁</div>
+          <div class="product-body">
+            <div class="product-game-tag">Voucher</div>
+            <div class="product-name">Google Play Rp 50.000</div>
+            <div class="product-desc">Voucher resmi Google Play untuk semua keperluan</div>
+            <div class="product-footer">
+              <div>
+                <span class="product-price-old">Rp 55.000</span>
+                <span class="product-price">Rp 52.000</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn-detail" onclick="event.stopPropagation();openModal('voucher-google','Voucher','🎁','Google Play Rp 50.000','Voucher resmi Google Play untuk beli game, app, atau top up langsung.','Rp 52.000','Rp 55.000','Voucher',['Nominal Rp 50.000','Kode Instan','Semua Akun Google','Berlaku Selamanya'])"><i class="bi bi-eye"></i></button>
+                <a class="btn-wa" href="https://wa.me/6281234567890?text=Halo,+saya+mau+beli+Google+Play+50rb" target="_blank" onclick="event.stopPropagation()"><i class="bi bi-whatsapp"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== TOP-UP SECTION ========== -->
+<section id="topup">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">⚡ Top Up Games</span>
+      <h2 class="section-title">Tersedia di <span style="background:linear-gradient(135deg,var(--accent-glow),var(--neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">20+ Game</span></h2>
+      <p class="section-desc mx-auto">Pilih game favorit kamu dan top up dengan harga terjangkau, proses super cepat.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="0">
+        <div class="topup-card"><div class="topup-img">💎</div><div class="topup-body"><div class="topup-name">Mobile Legends</div><div class="topup-label">Diamond</div></div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="60">
+        <div class="topup-card"><div class="topup-img">🪖</div><div class="topup-body"><div class="topup-name">PUBG Mobile</div><div class="topup-label">UC</div></div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="120">
+        <div class="topup-card"><div class="topup-img">💠</div><div class="topup-body"><div class="topup-name">Free Fire</div><div class="topup-label">Diamond</div></div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="180">
+        <div class="topup-card"><div class="topup-img">⭐</div><div class="topup-body"><div class="topup-name">Genshin Impact</div><div class="topup-label">Genesis Crystal</div></div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="240">
+        <div class="topup-card"><div class="topup-img">🗡️</div><div class="topup-body"><div class="topup-name">Honkai Star Rail</div><div class="topup-label">Oneiric Shard</div></div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="300">
+        <div class="topup-card"><div class="topup-img">🔥</div><div class="topup-body"><div class="topup-name">Valorant</div><div class="topup-label">VP Points</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURES ========== -->
+<section id="features">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-label">✨ Keunggulan Kami</span>
+      <h2 class="section-title">Kenapa Pilih <span style="background:linear-gradient(135deg,var(--accent-glow),var(--neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">NexusStore?</span></h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-card">
+          <div class="feature-icon" style="color:var(--neon)"><i class="bi bi-lightning-charge-fill"></i></div>
+          <div class="feature-title">Proses Instan</div>
+          <div class="feature-desc">Pesanan diproses dalam 1–5 menit setelah konfirmasi pembayaran. Tidak perlu menunggu lama.</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="80">
+        <div class="feature-card">
+          <div class="feature-icon" style="color:var(--gold)"><i class="bi bi-shield-fill-check"></i></div>
+          <div class="feature-title">100% Aman</div>
+          <div class="feature-desc">Semua produk resmi dan terjamin. Tidak akan kena banned. Garansi uang kembali jika gagal.</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="160">
+        <div class="feature-card">
+          <div class="feature-icon" style="color:var(--accent-glow)"><i class="bi bi-tags-fill"></i></div>
+          <div class="feature-title">Harga Termurah</div>
+          <div class="feature-desc">Harga selalu kompetitif dan lebih murah dari toko resmi. Update promo setiap hari.</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
+        <div class="feature-card">
+          <div class="feature-icon" style="color:#25D366"><i class="bi bi-headset"></i></div>
+          <div class="feature-title">CS 24/7</div>
+          <div class="feature-desc">Tim customer service siap membantu kapan saja via WhatsApp. Respon cepat dan ramah.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA BANNER ========== -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-box" data-aos="zoom-in">
+      <span class="section-label">📲 Hubungi Kami</span>
+      <h2 class="section-title mt-2">Siap Order Sekarang?</h2>
+      <p class="cta-subtitle">Chat langsung via WhatsApp dan dapatkan harga spesial. CS kami siap 24 jam untuk membantu transaksi kamu.</p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="https://wa.me/6281234567890?text=Halo+NexusStore,+saya+mau+order!" target="_blank" class="btn-primary-glow" style="font-size:1rem; padding:16px 36px;">
+          <i class="bi bi-whatsapp"></i> Chat WhatsApp Sekarang
+        </a>
+        <a href="#products" class="btn-outline-neon">
+          <i class="bi bi-grid-fill"></i> Lihat Produk
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand">NEXUS<span style="color:var(--neon);">STORE</span></div>
+        <p class="footer-desc">Toko game digital terpercaya sejak 2020. Melayani top up, jual beli akun, dan voucher game dengan proses cepat, aman, dan harga terbaik.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Layanan</div>
+        <a class="footer-link" href="#products">Top Up Diamond</a>
+        <a class="footer-link" href="#products">Beli Voucher</a>
+        <a class="footer-link" href="#products">Jual Akun</a>
+        <a class="footer-link" href="#topup">Semua Game</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Informasi</div>
+        <a class="footer-link" href="#">Cara Order</a>
+        <a class="footer-link" href="#">FAQ</a>
+        <a class="footer-link" href="#">Promo Terbaru</a>
+        <a class="footer-link" href="#">Syarat & Ketentuan</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Hubungi Kami</div>
+        <a class="footer-link d-flex align-items-center gap-2" href="https://wa.me/6281234567890" target="_blank"><i class="bi bi-whatsapp" style="color:#25D366"></i> +62 812-3456-7890</a>
+        <a class="footer-link d-flex align-items-center gap-2" href="#"><i class="bi bi-instagram" style="color:var(--accent-mid)"></i> @nexusstore.id</a>
+        <a class="footer-link d-flex align-items-center gap-2" href="#"><i class="bi bi-envelope-fill" style="color:var(--neon)"></i> cs@nexusstore.id</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 NexusStore. All rights reserved.</div>
+      <div class="social-links">
+        <a class="social-btn" href="#" target="_blank"><i class="bi bi-whatsapp"></i></a>
+        <a class="social-btn" href="#" target="_blank"><i class="bi bi-instagram"></i></a>
+        <a class="social-btn" href="#" target="_blank"><i class="bi bi-tiktok"></i></a>
+        <a class="social-btn" href="#" target="_blank"><i class="bi bi-telegram"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== CUSTOM MODAL ========== -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal-box">
+    <button class="modal-close" onclick="closeModalBtn()"><i class="bi bi-x-lg"></i></button>
+    <span class="modal-emoji" id="modal-emoji">💎</span>
+    <div class="modal-tag" id="modal-tag">Mobile Legends</div>
+    <div class="modal-title" id="modal-title">Nama Produk</div>
+    <div class="modal-price-row">
+      <span class="modal-price" id="modal-price">Rp 0</span>
+      <span class="modal-price-old" id="modal-price-old">Rp 0</span>
+    </div>
+    <p class="modal-desc" id="modal-desc">Deskripsi produk.</p>
+    <div class="modal-features" id="modal-features"></div>
+    <a class="btn-wa-modal" id="modal-wa-btn" href="#" target="_blank">
+      <i class="bi bi-whatsapp"></i> Order via WhatsApp
+    </a>
+  </div>
+</div>
+
+<!-- ========== SCRIPTS ========== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  // AOS Init
+  AOS.init({ duration: 700, once: true, offset: 60 });
+
+  // Progress Bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+  });
+
+  // Navbar scroll behavior
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Hamburger
+  document.getElementById('hamburger-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  });
+
+  // Smooth close mobile menu on link click
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.remove('open');
+    });
+  });
+
+  // Category pills
+  document.querySelectorAll('.cat-pill').forEach(pill => {
+    pill.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  // Modal
+  function openModal(id, game, emoji, name, desc, price, priceOld, tag, features) {
+    document.getElementById('modal-emoji').textContent = emoji;
+    document.getElementById('modal-title').textContent = name;
+    document.getElementById('modal-desc').textContent = desc;
+    document.getElementById('modal-price').textContent = price;
+    document.getElementById('modal-price-old').textContent = priceOld;
+    document.getElementById('modal-tag').textContent = tag;
+
+    const featEl = document.getElementById('modal-features');
+    featEl.innerHTML = features.map(f => `<span class="modal-feat-pill">${f}</span>`).join('');
+
+    const waText = encodeURIComponent(`Halo NexusStore, saya mau order: ${name} (${price}). Boleh info lebih lanjut?`);
+    document.getElementById('modal-wa-btn').href = `https://wa.me/6281234567890?text=${waText}`;
+
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModalBtn() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModalBtn();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModalBtn();
+  });
+</script>
+</body>
+</html>
